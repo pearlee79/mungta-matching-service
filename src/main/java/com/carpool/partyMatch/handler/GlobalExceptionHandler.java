@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.carpool.partyMatch.exception.ApiException;
-import com.carpool.partyMatch.exception.ErrorResponse;
-import com.carpool.partyMatch.exception.ErrorCode;
+import com.carpool.partyMatch.exception.ApiStatus;
+import com.carpool.partyMatch.exception.MessageEntity;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(RuntimeException.class)
-    public String handleRuntimeException(final RuntimeException e) {
+    public ResponseEntity<MessageEntity> handleRuntimeException(final RuntimeException e) {
         log.error("handleRuntimeException : {}", e.getMessage());
 
         ApiStatus apiStatus = ApiStatus.UNEXPECTED_ERROR;
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<String> handleValidationException(MethodArgumentNotValidException e) {
+    protected ResponseEntity<MessageEntity> handleValidationException(MethodArgumentNotValidException e) {
       log.error("MethodArgumentNotValidException", e);
 
       ApiStatus apiStatus = ApiStatus.NOT_EXIST_MATCH;
@@ -66,10 +66,10 @@ public class GlobalExceptionHandler {
      * HTTP 500 Exception
      */
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(final Exception e) {
+    protected ResponseEntity<MessageEntity> handleException(final Exception e) {
         log.error("handleException: {}", e.getMessage());
 
-        ApiStatus apiStatus = ApiStatus.UNEXPECTED_ERROR;
+        ApiStatus apiStatus = ApiStatus.NOT_EXIST_MATCH;
         return new ResponseEntity<>(MessageEntity.of(apiStatus),apiStatus.getHttpStatus());
     }
 

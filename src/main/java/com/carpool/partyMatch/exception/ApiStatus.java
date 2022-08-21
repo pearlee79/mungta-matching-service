@@ -1,6 +1,8 @@
 package com.carpool.partyMatch.exception;
 
-import lombok.AllArgsConstructor;
+import java.util.Arrays;
+import org.springframework.http.HttpStatus;
+
 import lombok.Getter;
 
 @Getter

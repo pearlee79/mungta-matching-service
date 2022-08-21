@@ -26,7 +26,7 @@ import com.carpool.partyMatch.repository.MatchInfoRepository;
 import com.carpool.partyMatch.repository.PartyRepository;
 import com.carpool.partyMatch.service.MatchInfoService;
 import com.carpool.partyMatch.exception.ApiException;
-import com.carpool.partyMatch.exception.ErrorCode;
+
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +44,7 @@ public class MatchInfoServiceImpl implements MatchInfoService {
     public List<MatchInfo> findMatchUsers(Long partyInfoId){
         log.info("********* findMatchUsers Service *********");
 
-        List<MatchInfo> matchInfoList = matchInfoRepository.findByPartyInfoIdAndMatchStatus(partyInfoId, MatchStatus.WATING)
-                .orElseThrow(() -> new ApiException(ApiStatus.NOT_EXIST_MATCH));
+        List<MatchInfo> matchInfoList = matchInfoRepository.findByPartyInfoIdAndMatchStatus(partyInfoId, MatchStatus.WATING);
 
         return matchInfoList;
     }
@@ -72,8 +71,7 @@ public class MatchInfoServiceImpl implements MatchInfoService {
         log.debug(String.valueOf(matchInfoDto));
 
         //파티 상태 확인, 신청자 확인 (시작 또는 종료이면 취소 불가)
-        MatchInfo matchInfo = matchInfoRepository.findByPartyInfoIdAndUserId(matchInfoDto.getPartyInfoId(), matchInfoDto.getUserId())
-        .orElseThrow(() -> new ApiException(ApiStatus.NOT_EXIST_QUESTION));
+        MatchInfo matchInfo = matchInfoRepository.findByPartyInfoIdAndUserId(matchInfoDto.getPartyInfoId(), matchInfoDto.getUserId());
 
         //매칭 수락 정보 확인
         boolean isAccepted = false;

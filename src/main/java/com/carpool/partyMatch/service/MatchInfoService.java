@@ -12,7 +12,9 @@ import com.carpool.partyMatch.controller.dto.response.PartyProcessResponse;
 
 public interface MatchInfoService {
 
-  public List<MatchInfo> findMatchUsers(Long partyInfoId);
+  public List<MatchInfo> findMatchUsers(Long partyInfoId, String matchStatus);
+
+  public MatchInfo findMatchInfo(Long partyInfoId, Long userId);
 
   public MatchInfo registerMatchInfo(MatchInfoDto matchInfoDto);
 

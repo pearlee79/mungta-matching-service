@@ -41,12 +41,23 @@ public class MatchInfoServiceImpl implements MatchInfoService {
   private final PartyRepository partyRepository;
 
     @Override
-    public List<MatchInfo> findMatchUsers(Long partyInfoId){
+    public List<MatchInfo> findMatchUsers(Long partyInfoId, String matchStatus){
         log.info("********* findMatchUsers Service *********");
 
-        List<MatchInfo> matchInfoList = matchInfoRepository.findByPartyInfoIdAndMatchStatus(partyInfoId, MatchStatus.WATING);
+        MatchStatus ms = MatchStatus.valueOf(matchStatus);
+
+        List<MatchInfo> matchInfoList = matchInfoRepository.findByPartyInfoIdAndMatchStatus(partyInfoId, ms);
 
         return matchInfoList;
+    }
+
+    @Override
+    public MatchInfo findMatchInfo(Long partyInfoId, Long userId){
+        log.info("********* findMatchInfo Service *********");
+
+        MatchInfo matchInfo = matchInfoRepository.findByPartyInfoIdAndUserId(partyInfoId, userId);
+
+        return matchInfo;
     }
 
     @Override
